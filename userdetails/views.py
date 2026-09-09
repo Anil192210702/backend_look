@@ -22,7 +22,10 @@ def signup(request):
                 return JsonResponse({"error": "Username already exists"}, status=400)
             
             # This directly inserts into your MySQL database using Django's ORM
+            phone = data.get("phone", "")
             user = User.objects.create_user(username=username, email=email, password=password)
+            user.first_name = phone
+            user.save()
             return JsonResponse({"message": "User created successfully", "status": "success"}, status=201)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)

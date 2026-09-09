@@ -61,6 +61,7 @@ def get_family_members(request):
                 members.append({
                     "id": c.unique_id,
                     "username": c.child.username if c.child else "Pending...",
+                    "phone": c.child.first_name if c.child else "",
                     "status": "Connected" if c.child else "Waiting",
                     "device": c.device_name if c.child else "",
                     "battery": c.battery_level if c.child else 0
