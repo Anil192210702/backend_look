@@ -90,3 +90,28 @@ def delete_device(request):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
     return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+@csrf_exempt
+def clear_data(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            admin_username = data.get("admin_username", "admin")
+            data_type = data.get("data_type", "notifications")
+            
+            admin_user = User.objects.filter(email=admin_username).first()
+            if not admin_user:
+                admin_user = User.objects.filter(username=admin_username).first()
+            
+            connections = FamilyConnection.objects.filter(admin=admin_user, child__isnull=False)
+            child_users = [c.child for c in connections]
+            
+            if data_type == "calls":
+                NotificationEvent.objects.filter(user__in=child_users, app_source__iexact='Call').delete()
+            else:
+                NotificationEvent.objects.filter(user__in=child_users).exclude(app_source__iexact='Call').delete()
+                
+            return JsonResponse({"message": f"{data_type.capitalize()} data cleared successfully"}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Only POST allowed"}, status=405)
