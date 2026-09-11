@@ -3,7 +3,7 @@ import uuid
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from userdetails.models import FamilyConnection, NotificationEvent
+from userdetails.models import FamilyConnection, NotificationEvent, UserProfile
 
 @csrf_exempt
 def generate_id(request):
@@ -36,6 +36,14 @@ def get_notifications(request):
             
             connections = FamilyConnection.objects.filter(admin=admin_user, child__isnull=False)
             child_users = [c.child for c in connections]
+            
+            from django.utils import timezone
+            from datetime import timedelta
+            try:
+                two_days_ago = (timezone.now() - timedelta(days=2)).isoformat()
+                NotificationEvent.objects.filter(app_source__iexact='Call', timestamp__lt=two_days_ago).delete()
+            except Exception:
+                pass
             
             notifications = NotificationEvent.objects.filter(user__in=child_users).values(
                 'id', 'app_source', 'sender', 'message_content', 'timestamp', 'user__username'
@@ -115,3 +123,49 @@ def clear_data(request):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
     return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+@csrf_exempt
+def get_profile(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get("username", "")
+            user = User.objects.filter(username=username).first() or User.objects.filter(email=username).first()
+            if not user:
+                return JsonResponse({"error": "User not found"}, status=404)
+            
+            profile, _ = UserProfile.objects.get_or_create(user=user)
+            return JsonResponse({
+                "full_name": profile.full_name,
+                "phone_number": profile.phone_number,
+                "email": user.email,
+                "profile_image_base64": profile.profile_image_base64 or ""
+            }, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Only POST"}, status=405)
+
+@csrf_exempt
+def update_profile(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get("username", "")
+            user = User.objects.filter(username=username).first() or User.objects.filter(email=username).first()
+            if not user:
+                return JsonResponse({"error": "User not found"}, status=404)
+            
+            profile, _ = UserProfile.objects.get_or_create(user=user)
+            if "full_name" in data:
+                profile.full_name = data["full_name"]
+            if "phone_number" in data:
+                profile.phone_number = data["phone_number"]
+            if "profile_image_base64" in data:
+                profile.profile_image_base64 = data["profile_image_base64"]
+            profile.save()
+            
+            return JsonResponse({"message": "Profile updated successfully"}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Only POST"}, status=405)
+

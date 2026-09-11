@@ -16,3 +16,10 @@ class NotificationEvent(models.Model):
     message_content = models.TextField()
     timestamp = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    full_name = models.CharField(max_length=150, default="", blank=True)
+    phone_number = models.CharField(max_length=20, default="", blank=True)
+    profile_image_base64 = models.TextField(blank=True, null=True)
+

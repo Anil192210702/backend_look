@@ -1,0 +1,100 @@
+﻿git : remote: error: 
+GH013: Repository 
+rule violations found 
+for refs/heads/main.  
+      
+At line:1 char:1
++ git push 2>&1 | 
+Out-File error.txt 
+-Encoding utf8
++ ~~~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (remote: er   
+ ror: ...s/main.      
+      :String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+remote: 
+remote: - GITHUB PUSH 
+PROTECTION        
+remote:   ΓÇöΓÇöΓÇöΓÇö
+ΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓ
+ÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇ
+öΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇö
+ΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓ
+ÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇ
+ö        
+remote:     Resolve 
+the following 
+violations before 
+pushing again        
+remote: 
+remote:     - Push 
+cannot contain 
+secrets        
+remote: 
+remote:             
+remote:      (?) 
+Learn how to resolve 
+a blocked push        
+remote:      https://d
+ocs.github.com/code-se
+curity/secret-scanning
+/working-with-secret-s
+canning-and-push-prote
+ction/working-with-pus
+h-protection-from-the-
+command-line#resolving
+-a-blocked-push       
+ 
+remote:             
+remote:             
+remote:       ΓÇöΓÇö 
+Aiven Service 
+Password ΓÇöΓÇöΓÇöΓÇöΓ
+ÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇ
+öΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇö
+ΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓÇöΓ
+ÇöΓÇö        
+remote:        
+locations:        
+remote:          - 
+commit: f609994afab100
+cce053e0735c49e11faa9f
+2de6        
+remote:            
+path: import_db.py:10 
+       
+remote:             
+remote:        (?) To 
+push, remove secret 
+from commit(s) or 
+follow this URL to 
+allow the secret.     
+   
+remote:        https:/
+/github.com/Anil192210
+702/backend_look/secur
+ity/secret-scanning/un
+block-secret/3J6PvaJqO
+xUMjOSx4y1Uu1b0wFf    
+    
+remote:             
+remote: 
+remote: 
+To https://github.com/
+Anil192210702/backend_
+look.git
+ ! [remote rejected] 
+main -> main (push 
+declined due to 
+repository rule 
+violations)
+error: failed to push 
+some refs to 'https://
+github.com/Anil1922107
+02/backend_look.git'
