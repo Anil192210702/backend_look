@@ -10,7 +10,10 @@ from .models import FamilyConnection, NotificationEvent
 def signup(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             username = data.get("username")
             email = data.get("email", "")
             password = data.get("password")
@@ -42,7 +45,10 @@ def signup(request):
 def signin(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             username_or_email = data.get("username")
             password = data.get("password")
             
@@ -66,7 +72,10 @@ def signin(request):
 def pair_device(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             child_username = data.get("username", "").strip()
             unique_id = data.get("unique_id", "").strip().upper()
             
@@ -97,7 +106,10 @@ def pair_device(request):
 def get_paired_admin(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             child_username = data.get("username", "").strip()
             
             child_user = User.objects.filter(email=child_username).first()
@@ -124,7 +136,10 @@ def get_paired_admin(request):
 def upload_notification(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             username = data.get("username")
             user = User.objects.filter(email=username).first()
             if not user:
@@ -147,7 +162,10 @@ def upload_notification(request):
 def get_user_alerts(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             username = data.get("username")
             user = User.objects.filter(email=username).first()
             if not user:
@@ -168,7 +186,10 @@ def get_user_alerts(request):
 def update_device_meta(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             username = data.get("username")
             device_name = data.get("device_name", "Unknown Device")
             battery_level = int(data.get("battery_level", 0))

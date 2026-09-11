@@ -9,7 +9,10 @@ from userdetails.models import FamilyConnection, NotificationEvent, UserProfile
 def generate_id(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             admin_username = data.get("admin_username", "admin")
             admin_user = User.objects.filter(email=admin_username).first()
             if not admin_user:
@@ -28,7 +31,10 @@ def generate_id(request):
 def get_notifications(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             admin_username = data.get("admin_username", "admin")
             admin_user = User.objects.filter(email=admin_username).first()
             if not admin_user:
@@ -57,7 +63,10 @@ def get_notifications(request):
 def get_family_members(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             admin_username = data.get("admin_username", "admin")
             admin_user = User.objects.filter(email=admin_username).first()
             if not admin_user:
@@ -83,7 +92,10 @@ def get_family_members(request):
 def delete_device(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             admin_username = data.get("admin_username", "admin")
             unique_id = data.get("unique_id", "")
             
@@ -103,7 +115,10 @@ def delete_device(request):
 def clear_data(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             admin_username = data.get("admin_username", "admin")
             data_type = data.get("data_type", "notifications")
             
@@ -128,7 +143,10 @@ def clear_data(request):
 def get_profile(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             username = data.get("username", "")
             user = User.objects.filter(username=username).first() or User.objects.filter(email=username).first()
             if not user:
@@ -149,7 +167,10 @@ def get_profile(request):
 def update_profile(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
+            try:
+                data = json.loads(request.body)
+            except Exception:
+                data = request.POST
             username = data.get("username", "")
             user = User.objects.filter(username=username).first() or User.objects.filter(email=username).first()
             if not user:
